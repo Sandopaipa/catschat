@@ -1,0 +1,19 @@
+version: latest
+services:
+
+  redis:
+    image: redis:5
+    restart: always
+    ports:
+      - "6379:6379"
+
+  catschat:
+    container_name: catschat
+    build: .
+    volumes:
+      - .:/catschat
+    ports:
+      - 8000:8000
+    depends_on:
+      - redis
+    command: sh -c "python manage.py runserver 0.0.0.0:8000"
